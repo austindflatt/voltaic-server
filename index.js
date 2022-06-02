@@ -10,14 +10,14 @@ const port = process.env.PORT || 3001;
 dotenv.config();
 
 mongoose
-	.connect(process.env.MONGODB_URI_PRODUCTION, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-	.then(() => console.log('MongoDB Connected'))
-	.catch((err) => {
-		console.log(err)
-	});
+  .connect(process.env.MONGODB_URI_PRODUCTION, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('MongoDB Connected'))
+  .catch((err) => {
+    console.log(err)
+  });
 
 
 app.use(cors());
