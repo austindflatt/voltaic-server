@@ -10,7 +10,7 @@ const port = process.env.PORT || 3001;
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGODB_URI_PRODUCTION, {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
