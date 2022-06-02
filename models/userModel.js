@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
   profilePic: { type: String, default: '' },
   isAdmin: { type: Boolean, default: false },
   hostedStation: [{ type: mongoose.Schema.ObjectId, ref: "station" }],
-  tripHistory: [{ type: mongoose.Schema.ObjectId, ref: "trip" }],
+  reviewHistory: [{ type: mongoose.Schema.ObjectId, ref: "review" }],
 }, { timestamps: true })
 
 module.exports = mongoose.model("user", UserSchema);
