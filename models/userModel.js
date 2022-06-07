@@ -7,8 +7,12 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   profilePic: { type: String, default: '' },
+  bio: { type: String },
+  location: { type: String },
+  followers: { type: Array, default: [] },
+  following: { type: Array, default: [] },
   isAdmin: { type: Boolean, default: false },
-  hostedStation: [{ type: mongoose.Schema.ObjectId, ref: "station" }],
+  hostedStations: [{ type: mongoose.Schema.ObjectId, ref: "station" }],
   reviewHistory: [{ type: mongoose.Schema.ObjectId, ref: "review" }],
 }, { timestamps: true })
 
