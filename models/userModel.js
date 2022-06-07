@@ -11,9 +11,10 @@ const UserSchema = new mongoose.Schema({
   location: { type: String },
   followers: { type: Array, default: [] },
   following: { type: Array, default: [] },
+  favoriteStations: { type: Array, default: [] },
   isAdmin: { type: Boolean, default: false },
   hostedStations: [{ type: mongoose.Schema.ObjectId, ref: "station" }],
-  reviewHistory: [{ type: mongoose.Schema.ObjectId, ref: "review" }],
+  checkIns: [{ type: mongoose.Schema.ObjectId, ref: "checkIn" }],
 }, { timestamps: true })
 
 module.exports = mongoose.model("user", UserSchema);
