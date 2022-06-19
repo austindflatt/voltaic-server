@@ -4,8 +4,8 @@ const StationSchema = new mongoose.Schema({
   image: { type: String, required: true, unique: true,},
   name: { type: String, required: true, unique: true },
   address: { type: String, required: true, unique: true },
-  lat: { type: String, required: false, unique: true },
-  long: { type: String, required: false, unique: true },
+  lat: { type: String, required: false },
+  long: { type: String, required: false },
   description: { type: String, required: true },
   plugType: { type: String, required: true },
   network: { type: String, required: true },
@@ -21,9 +21,10 @@ const StationSchema = new mongoose.Schema({
   parkingAttributes: { type: Array, required: false },
   accessRestrictions: { type: Array, required: false },
   amenities: { type: Array, required: false },
-  creator: { type: mongoose.Schema.ObjectId, ref: "user" },
+  user: { type: mongoose.Schema.ObjectId, ref: "user" },
   checkIns: [{ type: mongoose.Schema.ObjectId, ref: "checkIn" }],
-  favorites: { type: Array, default: [] },
+  favorites: [{ type: mongoose.Schema.ObjectId, ref: "user" }],
+  favoritesCount: { type: Number, default: 0 },
   rating: { type: Number, default: 0, min: 0, max: 5, },
 }, { timestamps: true })
 

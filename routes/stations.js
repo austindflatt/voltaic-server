@@ -49,7 +49,9 @@ router.delete('/delete/:id', verify, async (req, res) => {
 // GET STATION BY ID
 router.get('/find/:id', async (req, res) => {
   try {
-    const station = await Station.findById(req.params.id);
+    const station = await Station.findById(req.params.id)
+    .populate('checkIn')
+    .populate('user')
     return res.status(200).json({ message: 'Station Info', payload: station });
   } catch (error) {
     return res.status(500).json(error)

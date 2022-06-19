@@ -41,7 +41,8 @@ router.delete('/delete/:id', verify, async (req, res) => {
 router.get('/find/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
-    .populate('station');
+    .populate('station')
+    .populate('checkIn')
     const { password, email, ...info } = user._doc;
     res.status(200).json({ message: 'User Info', info });
   } catch (error) {
