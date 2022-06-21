@@ -24,7 +24,6 @@ const StationSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.ObjectId, ref: "user" },
   checkIns: [{ type: mongoose.Schema.ObjectId, ref: "checkIn" }],
   favorites: [{ type: mongoose.Schema.ObjectId, ref: "user" }],
-  favoritesCount: { type: Number, default: 0 },
   rating: { type: Number, default: 0, min: 0, max: 5, },
 }, { timestamps: true })
 
