@@ -50,20 +50,6 @@ router.delete('/delete/:id', verify, async (req, res) => {
 router.get('/find/:id', async (req, res) => {
   try {
     const station = await Station.findById(req.params.id)
-    .populate({
-      path: "checkIn",
-      select: "text",
-      populate: {
-        path: "user",
-        select: "username avatar",
-      },
-    })
-    .populate({
-      path: "user",
-      select: "username avatar",
-    })
-    .lean()
-    .exec();
     return res.status(200).json({ message: 'Station Info', payload: station });
   } catch (error) {
     return res.status(500).json(error)
