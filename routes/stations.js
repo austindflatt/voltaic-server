@@ -1,14 +1,77 @@
 const router = require('express').Router();
 const Station = require('../models/stationModel');
+const User = require('../models/userModel');
 const { verify } = require('./verifyToken');
 
 // CREATE STATION
 router.post('/create', verify, async (req, res) => {
-  const newStation = new Station(req.body);
+  const { 
+    image, 
+    name,
+    address,
+    lat,
+    long,
+    description,
+    plugType,
+    network,
+    open247,
+    restricted,
+    paymentRequired,
+    active,
+    homeCharger,
+    hours,
+    phoneNumber,
+    price,
+    parkingLevel,
+    parkingAttributes,
+    accessRestrictions,
+    amenities,
+    chargerCreator,
+    checkIns,
+    favorites,
+    rating,
+  } = req.body;
   if(req.user) {
+
+    console.log('chargerCreator: ', chargerCreator);
+
     try {
+      const foundUser = await User.findById(chargerCreator);
+
+      const newStation = new Station({
+        image: image,
+        name: name,
+        address: address,
+        lat: lat,
+        long: long,
+        description: description,
+        plugType: plugType,
+        network: network,
+        open247: open247,
+        restricted: restricted,
+        paymentRequired: paymentRequired,
+        active: active,
+        homeCharger: homeCharger,
+        hours: hours,
+        phoneNumber: phoneNumber,
+        price: price,
+        parkingLevel: parkingLevel,
+        parkingAttributes: parkingAttributes,
+        accessRestrictions: accessRestrictions,
+        amenities: amenities,
+        chargerCreator: foundUser._id,
+        checkIns: checkIns,
+        favorites: favorites,
+        rating: rating
+      })
       const savedStation = await newStation.save();
-      return res.status(200).json({ message: 'Station created successfully', payload: savedStation });
+
+      foundUser.addedStations.push(savedStation.id);
+
+      foundUser.populate('addedStations');
+      
+      await foundUser.save();
+      return res.status(200).json({ message: 'Station created successfully', payload: { user: foundUser.toObject() }});
     }
     catch (error) {
       console.log(error)
