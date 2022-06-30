@@ -42,6 +42,7 @@ router.get('/find/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
     .populate('addedStations')
+    .populate('checkIns')
     const { password, email, ...info } = user._doc;
     res.status(200).json({ message: 'User Info', info });
   } catch (error) {
@@ -65,5 +66,18 @@ router.get('/', verify, async (req, res) => {
     res.status(403).json("You are not allowed to see all users!");
   }
 });
+
+// // FOLLOW & UNFOLLOW A USER
+// router.post('/follow/:id', verify, async (req, res) => {
+//   if (req.user.id === req.params.id) {
+//     return res.status(400).json({ alreadyfollow : "You cannot follow yourself"})
+//   }
+//   try {
+//     const updatedUser = await User.findByIdAndUpdate(req.params.id, { $set: req.body, }, { new: true });
+//     res.status(200).json({ message: 'User details updated successfully', payload: updatedUser });
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
 
 module.exports = router;

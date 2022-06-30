@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const CheckIn = require('../models/checkinModel');
+const Station = require('../models/stationModel');
 const User = require('../models/userModel');
 const { verify } = require('./verifyToken');
 
@@ -15,13 +16,15 @@ router.post('/create', verify, async (req, res) => {
   if(req.user) {
 
     console.log('chargerUser: ', chargerUser);
+    console.log('chargeStation: ', chargeStation);
 
     try {
       const foundUser = await User.findById(chargerUser);
+      const foundStation = await Station.findById(chargeStation);
 
       const newCheckIn = new CheckIn({
         chargerUser: foundUser._id,
-        chargeStation: chargeStation,
+        chargeStation: foundStation._id,
         chargeStatus: chargeStatus,
         review: review,
         photo: photo,
@@ -29,11 +32,17 @@ router.post('/create', verify, async (req, res) => {
       const savedCheckin = await newCheckIn.save();
 
       foundUser.checkIns.push(savedCheckin.id);
+      foundStation.checkIns.push(savedCheckin.id);
 
       foundUser.populate('checkIns');
+      foundStation.populate('checkIns');
       
       await foundUser.save();
-      return res.status(200).json({ message: 'Check In created successfully', payload: { user: foundUser.toObject() }});
+      await foundStation.save();
+
+      const userPayload = { user: foundUser.toObject() };
+      const stationPayload = { user: foundStation.toObject() }
+      return res.status(200).json({ message: 'Check In created successfully', payload: [userPayload, stationPayload]});
     }
     catch (error) {
       console.log(error)
@@ -75,6 +84,7 @@ router.delete('/delete/:id', verify, async (req, res) => {
 router.get('/find/:id', async (req, res) => {
   try {
     const checkin = await CheckIn.findById(req.params.id)
+    .populate('chargerUser')
     return res.status(200).json({ message: 'Check In Info', payload: checkin });
   } catch (error) {
     return res.status(500).json(error)
@@ -84,7 +94,8 @@ router.get('/find/:id', async (req, res) => {
 // GET ALL CHECK INS
 router.get('/', async (req, res) => {
   try {
-    const checkins = await CheckIn.find();
+    const checkins = await CheckIn.find()
+    .populate('chargerUser');
     return res.status(200).json(checkins.reverse());
   } catch (error) {
     return res.status(500).json(error)

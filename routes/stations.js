@@ -113,6 +113,8 @@ router.delete('/delete/:id', verify, async (req, res) => {
 router.get('/find/:id', async (req, res) => {
   try {
     const station = await Station.findById(req.params.id)
+    .populate('checkIns')
+    .populate('chargerCreator');
     return res.status(200).json({ message: 'Station Info', payload: station });
   } catch (error) {
     return res.status(500).json(error)
@@ -122,7 +124,8 @@ router.get('/find/:id', async (req, res) => {
 // GET ALL STATIONS
 router.get('/', async (req, res) => {
   try {
-    const stations = await Station.find();
+    const stations = await Station.find()
+    .populate('checkIns');
     return res.status(200).json(stations.reverse());
   } catch (error) {
     return res.status(500).json(error)
