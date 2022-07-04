@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Station = require('../models/stationModel');
+const { count } = require('../models/userModel');
 const User = require('../models/userModel');
 const { verify } = require('./verifyToken');
 
@@ -15,6 +16,7 @@ router.post('/create', verify, async (req, res) => {
     plugType,
     network,
     open247,
+    count,
     restricted,
     paymentRequired,
     active,
@@ -48,6 +50,7 @@ router.post('/create', verify, async (req, res) => {
         plugType: plugType,
         network: network,
         open247: open247,
+        count: count,
         restricted: restricted,
         paymentRequired: paymentRequired,
         active: active,
