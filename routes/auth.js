@@ -5,9 +5,10 @@ const jwt = require('jsonwebtoken');
 
 // REGISTER
 router.post('/register', async (req, res) => {
-  const { username, firstName, lastName, email, password, location, lat, long } = req.body;
+  const { profilePic, username, firstName, lastName, email, password, location, lat, long, bio } = req.body;
   console.log(req.body)
   const newUser = new User({
+    profilePic: profilePic,
     username: username,
     firstName: firstName,
     lastName: lastName,
@@ -19,6 +20,7 @@ router.post('/register', async (req, res) => {
     location: location,
     lat: lat,
     long: long,
+    bio: bio
     });
     
   try {
