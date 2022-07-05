@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/userModel');
+const Station = require('../models/stationModel');
 const CryptoJS = require("crypto-js");
 const { verify } = require('./verifyToken');
 
@@ -42,6 +43,7 @@ router.get('/find/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
     .populate('addedStations')
+    .populate('savedStations')
     .populate('checkIns')
     const { password, email, ...info } = user._doc;
     res.status(200).json({ message: 'User Info', info });
@@ -79,5 +81,29 @@ router.get('/', verify, async (req, res) => {
 //     res.status(500).json(error);
 //   }
 // });
+
+// SAVE A STATION
+router.post('/save-station/:id', verify, async (req, res) => {
+  if(req.user) {
+    try {
+      const station = await Station.findById(req.params.id);
+      const foundUser = await User.findById(req.user.id);
+
+      foundUser.savedStations.push(station);
+      foundUser.populate('savedStations');
+
+      await foundUser.save();
+
+      const userPayload = { user: foundUser.toObject() };
+      return res.status(200).json({ message: 'Saved station successfully', payload: userPayload});
+    }
+    catch (error) {
+      console.log(error)
+      return res.status(500).json(error)
+    }
+  } else {
+    res.status(403).json("You do not have permission!");
+  }
+});
 
 module.exports = router;

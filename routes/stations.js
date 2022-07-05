@@ -74,6 +74,9 @@ router.post('/create', verify, async (req, res) => {
       foundUser.populate('addedStations');
       
       await foundUser.save();
+
+      const allStations = await Station.find();
+
       return res.status(200).json({ message: 'Station created successfully', payload: { user: foundUser.toObject() }});
     }
     catch (error) {
