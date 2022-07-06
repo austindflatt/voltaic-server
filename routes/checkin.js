@@ -10,6 +10,7 @@ router.post('/create', verify, async (req, res) => {
     chargerUser,
     chargeStation,
     chargeStatus,
+    rating,
     review,
     photo
   } = req.body;
@@ -26,6 +27,7 @@ router.post('/create', verify, async (req, res) => {
         chargerUser: foundUser._id,
         chargeStation: foundStation._id,
         chargeStatus: chargeStatus,
+        rating: rating,
         review: review,
         photo: photo,
       })
