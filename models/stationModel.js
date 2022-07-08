@@ -10,6 +10,7 @@ const StationSchema = new mongoose.Schema({
   plugType: { type: String, required: true },
   network: { type: String, required: true },
   open247: { type: Boolean, required: true },
+  starlink: { type: Boolean, required: true },
   count: { type: Number, required: false },
   restricted: { type: Boolean, required: true },
   paymentRequired: { type: Boolean, required: true },
