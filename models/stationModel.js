@@ -19,7 +19,7 @@ const StationSchema = new mongoose.Schema({
   hours: { type: String, required: false },
   phoneNumber: { type: String, required: false },
   price: { type: String, required: false },
-  parkingLevel: { type: Number, required: true },
+  parkingLevel: { type: Number, required: false },
   parkingAttributes: { type: Array, required: false },
   accessRestrictions: { type: Array, required: false },
   amenities: { type: Array, required: false },
