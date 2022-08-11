@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const StationSchema = new mongoose.Schema({
   image: { type: String, required: true },
   name: { type: String, required: true },
-  address: { type: String, required: true, unique: true },
+  address: { type: String, required: true },
   lat: { type: String, required: false },
   long: { type: String, required: false },
   description: { type: String, required: true },

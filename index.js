@@ -21,6 +21,7 @@ mongoose
     console.log(err)
   });
 
+console.log("Test")
 
 app.use(cors());
 app.use(express.json());

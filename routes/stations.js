@@ -79,7 +79,7 @@ router.post('/create', verify, async (req, res) => {
 
       const allStations = await Station.find();
 
-      return res.status(200).json({ message: 'Station created successfully', payload: { user: foundUser.toObject() }});
+      return res.status(200).json({ message: 'Station created successfully', payload: allStations });
     }
     catch (error) {
       console.log(error)
@@ -122,7 +122,7 @@ router.get('/find/:id', async (req, res) => {
   try {
     const station = await Station.findById(req.params.id)
     .populate('checkIns')
-    .populate('chargerCreator');
+    .populate('chargerCreator')
     return res.status(200).json({ message: 'Station Info', payload: station });
   } catch (error) {
     return res.status(500).json(error)

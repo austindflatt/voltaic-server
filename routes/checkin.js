@@ -97,7 +97,7 @@ router.get('/find/:id', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const checkins = await CheckIn.find()
-    .populate('chargerUser');
+    .populate('chargerUser')
     return res.status(200).json(checkins.reverse());
   } catch (error) {
     return res.status(500).json(error)
