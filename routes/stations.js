@@ -79,7 +79,7 @@ router.post('/create', verify, async (req, res) => {
 
       const allStations = await Station.find();
 
-      return res.status(200).json({ message: 'Station created successfully', payload: allStations });
+      return res.status(200).json({ message: 'Station created successfully', payload: allStations.reverse() });
     }
     catch (error) {
       console.log(error)
